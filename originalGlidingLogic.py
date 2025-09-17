@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -19,8 +18,8 @@ N_per_track = 15
 N_total = N_tracks * N_per_track
 sprb_speed = 3.0  # Translocation speed (µm/s)
 track_length = L
-rear_zone = 0.5  # Last µm for rear-binding
-front_zone = 0.5  # First µm for front binding check
+rear_zone = 0.5
+front_zone = 0.5
 
 # Adhesion Kinetics (Weibull)
 shape_param = 1.8
@@ -28,7 +27,7 @@ scale_param = 3.5
 adhesion_thresh = 14
 jam_time_thresh = 4.5
 
-# Soft Turn Angle Distribution (15°–150°)
+# Soft Turn Angle Distribution
 soft_angle_bins = np.arange(15, 150, 15)
 soft_angle_probs = np.array([390, 230, 175, 190, 185, 180, 220, 200, 250], dtype=float)
 soft_angle_probs /= soft_angle_probs.sum()
@@ -43,7 +42,6 @@ class SprB:
         self.bound = False
         self.timer = 0.0
         self.bound_duration = 0.0
-        
 
     def update(self):
         if not self.bound:
@@ -67,8 +65,8 @@ class SprB:
             return True
         return False
 
-# -------------------- Front Check Helper --------------------
-def front_sprb_ready(sprbs, front_zone=0.5): #checks if there is free sprb at the front of the cell and if there is none at the beginning and one in the rear is jammed, does a 180degree turn. 
+# -------------------- Front Check --------------------
+def front_sprb_ready(sprbs, front_zone=0.5):
     for s in sprbs:
         if not s.bound and s.position <= front_zone:
             return True
@@ -139,7 +137,6 @@ colors = cmap(norm(times))
 for i in range(1, len(x)):
     ax1.plot(x[i-1:i+1], y[i-1:i+1], color=colors[i])
 
-# Plot soft vs sharp turns
 for i, (tx, ty, tt) in enumerate(zip(turn_x, turn_y, turn_type)):
     color = "magenta" if tt == "soft" else "red"
     ax1.scatter(tx, ty, color=color, s=25, label=tt if i == 0 else "")
@@ -162,50 +159,31 @@ ax2.grid(True)
 plt.tight_layout()
 plt.show()
 
-# -------------------- Helical Track Schematic --------------------
+# -------------------- Correct 3D Helical Track Plot --------------------
+cell_radius = 0.5    # µm
+n_turns = 3
+colors = ['blue', 'green', 'red']
+theta_vals = np.linspace(0, 2 * np.pi * n_turns, 500)
+
 fig = plt.figure(figsize=(8, 6))
 ax = fig.add_subplot(111, projection='3d')
 
-cell_radius = 0.5
-n_turns = 3
-theta_vals = np.linspace(0, 2 * np.pi * n_turns, N_per_track)
-x_vals = np.linspace(-L/2, L/2, N_per_track)
-
-colors = ['blue', 'green', 'red']
 for i in range(N_tracks):
     offset = (2 * np.pi * i) / N_tracks
     theta = theta_vals + offset
+    x_helix = (theta_vals / (2 * np.pi * n_turns)) * L - (L / 2)
     y_helix = cell_radius * np.cos(theta)
     z_helix = cell_radius * np.sin(theta)
-    x_helix = x_vals
-    ax.plot(x_helix, y_helix, z_helix, color=colors[i], linewidth=2, label=f"Track {i+1}")
-    ax.scatter(x_helix, y_helix, z_helix, color=colors[i], s=20, alpha=0.8)
+    ax.plot(x_helix, y_helix, z_helix, color=colors[i], linewidth=2.5, label=f"Track {i+1}")
+    ax.scatter(x_helix, y_helix, z_helix, color=colors[i], s=12, alpha=0.7)
 
 ax.set_xlim([-L/2, L/2])
-ax.set_ylim([-1, 1])
-ax.set_zlim([-1, 1])
+ax.set_ylim([-1.2, 1.2])
+ax.set_zlim([-1.2, 1.2])
 ax.set_xlabel("X (cell axis, µm)")
 ax.set_ylabel("Y (µm)")
 ax.set_zlabel("Z (µm)")
-ax.set_title("Helical SprB Tracks on Horizontal Cell (WT)")
+ax.set_title("Correct 3D Helical SprB Tracks")
 ax.legend()
 plt.tight_layout()
 plt.show()
-
-# -------------------- Summary --------------------
-print("\n--- SprB System Parameters ---")
-print(f"Total SprB molecules: {N_total} ({N_per_track} per track × {N_tracks} tracks)")
-print(f"SprB track length: {track_length} µm")
-print(f"SprB translocation speed: {sprb_speed} µm/s")
-print(f"Rear binding zone: last {rear_zone} µm of the track")
-
-print("\n--- Adhesion Kinetics ---")
-print(f"Weibull shape parameter (m): {shape_param}")
-print(f"Weibull scale parameter (τ): {scale_param} s")
-print(f"Adhesion threshold for soft turns: {adhesion_thresh} bound SprBs")
-print(f"Rear SprB jam time threshold (flip trigger): {jam_time_thresh} s")
-
-print("\n--- Simulation Parameters ---")
-print(f"Cell speed: {v_cell} µm/s")
-print(f"Total simulation time: {T_total} s")
-print(f"Turns per body length traveled (WT): {turns_per_bl:.2f}")
