@@ -27,6 +27,15 @@ This project provides a hands-on example of how simulation can be used to model 
 
 ---
 
+## 🛠️ Tech Stack
+
+- **Language:** Python  
+- **Numerical Computing:** NumPy (for calculations and data handling)  
+- **Visualization:** Matplotlib (for plotting trajectories and results)  
+- **Development Environment:** Any Python IDE (e.g., VS Code, PyCharm, or Jupyter)
+
+---
+
 ## 🛠️ How to Use
 
 1. **Open the code files**  
