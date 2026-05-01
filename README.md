@@ -1,16 +1,29 @@
-# 🦠 Bacterial Gliding Simulation
+# 🦠 Fjohnsoniae 3D Gliding Simulation
 
-This repository contains a Python simulation project that models the motion of bacteria as they glide along surfaces. The simulation is driven by adhesion dynamics where surface units move along helical tracks, stochastically binding and unbinding. Direction changes arise when adhesion conditions trigger either smooth turns or sharp flips. The code logs trajectories, visualizes paths in 2D/3D, and reports metrics such as total turns and turns per unit length.
+This repository contains a Python simulation project that models the surface 
+gliding motility of *Flavobacterium johnsoniae*. The simulation is driven by 
+adhesion dynamics where surface units move along helical tracks, stochastically 
+binding and unbinding. Direction changes arise when adhesion conditions trigger 
+either smooth turns or sharp flips. The code logs trajectories, visualizes paths 
+in 2D/3D, and reports metrics such as total turns and turns per unit length.
+
+---
+
+## 📈 Updates
+
+**May 2026** — Upgraded from 2D to full 3D simulation. Corrected drag coefficients 
+(Tirado & de la Torre), roll torque cross-product, binding/unbinding logic, and 
+trajectory calculations.
 
 ---
 
 ## 📂 Project Contents
 
-The repository includes the following files:
-
-- **2DGlidingLogic.py** – Python script containing logic for simulating bacterial gliding in 2D.  
-- **originalGlidingLogic.py** – An original version of the gliding logic for reference or comparison.  
-- **README.md** – Project documentation.  
+| File | Description |
+|------|-------------|
+| `Fjohnsoniae-3D-Gliding-Simulation.ipynb` | Current 3D simulation with corrected physics |
+| `2DGlidingLogic.py` | Earlier 2D version of the gliding logic |
+| `originalGlidingLogic.py` | Original reference implementation |
 
 ---
 
@@ -18,30 +31,34 @@ The repository includes the following files:
 
 This project demonstrates the following computational and simulation concepts:
 
-- 🧪 Stochastic modeling of motion where binding events influence direction changes  
-- 🌀 Implementation of simulated trajectories using Python  
-- 📊 Visualization of motion paths in two or three dimensions  
-- 📈 Logging and analysis of simulation metrics such as turns and movement efficiency  
-
-This project provides a hands-on example of how simulation can be used to model dynamic biological processes.
+- 🧪 Stochastic modeling of motion where binding events influence direction changes
+- 🌀 3D trajectory simulation using corrected biophysical parameters
+- 📊 Visualization of motion paths in 2D and 3D
+- 📈 Logging and analysis of simulation metrics such as turns and movement efficiency
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Language:** Python  
-- **Numerical Computing:** NumPy (for calculations and data handling)  
-- **Visualization:** Matplotlib (for plotting trajectories and results)  
-- **Development Environment:** Any Python IDE (e.g., VS Code, PyCharm, or Jupyter)
+- **Language:** Python
+- **Numerical Computing:** NumPy
+- **Visualization:** Matplotlib
+- **Development Environment:** Jupyter Notebook
 
 ---
 
 ## 🛠️ How to Use
 
-1. **Open the code files**  
-   Inspect `2DGlidingLogic.py` or `originalGlidingLogic.py` to understand model logic, parameters, and how motion is simulated.
+1. **Open the notebook**
+   Open `Fjohnsoniae-3D-Gliding-Simulation.ipynb` in Jupyter to explore the 
+   full 3D simulation with corrected physics and visualizations.
 
-2. **Run the simulation**  
-   In a Python environment that supports the required libraries, run the appropriate script:
-   ```bash
+2. **Or run the 2D script**
+```bash
    python 2DGlidingLogic.py
+```
+
+3. **Requirements**
+```bash
+   pip install numpy matplotlib
+```
